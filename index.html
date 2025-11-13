@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Baby Due Date Calculator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+    <div class="container">
+        <aside class="sidebar">
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About</a></li>
+                </ul>
+            </nav>
+        </aside>
+        <main class="main-content">
+            <header>
+                <h1>Baby Due Date Calculator</h1>
+            </header>
+            <section class="calculator">
+                <div class="input-group">
+                    <label for="lmp">1st day of your last menstrual period (LMP)</label>
+                    <input type="date" id="lmp" required>
+                    <span class="error-message" id="lmp-error"></span>
+                </div>
+                <div class="input-group">
+                    <label for="cycle-length">Typical days in your period</label>
+                    <select id="cycle-length">
+                    </select>
+                    <span class="error-message" id="cycle-length-error"></span>
+                </div>
+                <div class="buttons">
+                    <button id="calculate">Calculate</button>
+                    <button id="reset">Reset</button>
+                </div>
+                <div class="output">
+                    <h2>Estimated Due Date (EDD)</h2>
+                    <p id="edd-output"></p>
+                </div>
+            </section>
+        </main>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
