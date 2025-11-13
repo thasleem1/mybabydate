@@ -37,9 +37,16 @@ body {
     padding: 20px;
 }
 
+@media (min-width: 769px) {
+    .main-content {
+        display: flex;
+        justify-content: flex-start;
+    }
+}
+
 .calculator {
     max-width: 400px;
-    margin: 0 auto;
+    margin: 0;
     background-color: #fff;
     padding: 20px;
     border-radius: 10px;
@@ -83,6 +90,7 @@ button:hover {
 .output {
     margin-top: 20px;
     text-align: center;
+    display: none;
 }
 
 .error-message {
@@ -111,10 +119,11 @@ button:hover {
 
     .sidebar {
         width: 100%;
-        height: auto;
-        position: relative;
+        height: 100%;
+        position: fixed;
         transform: translateX(-100%);
         transition: transform 0.3s ease-in-out;
+        z-index: 999;
     }
 
     .sidebar.active {
@@ -125,7 +134,7 @@ button:hover {
         display: block;
         position: fixed;
         top: 20px;
-        right: 20px;
+        left: 20px;
         z-index: 1000;
     }
 }
