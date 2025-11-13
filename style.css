@@ -40,6 +40,7 @@ body {
 @media (min-width: 769px) {
     .main-content {
         display: flex;
+        flex-direction: column;
         justify-content: flex-start;
     }
 }
@@ -51,6 +52,13 @@ body {
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    max-height: 250px;
+    transition: max-height 0.5s ease-in-out;
+    overflow: hidden;
+}
+
+.calculator.active {
+    max-height: 500px;
 }
 
 .input-group {
@@ -91,6 +99,21 @@ button:hover {
     margin-top: 20px;
     text-align: center;
     display: none;
+    position: relative;
+}
+
+.shooting-star {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 50px;
+    height: 50px;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.output.active .shooting-star {
+    opacity: 1;
 }
 
 .error-message {
@@ -118,7 +141,8 @@ button:hover {
     }
 
     .sidebar {
-        width: 100%;
+        width: 25%;
+        min-width: 150px;
         height: 100%;
         position: fixed;
         transform: translateX(-100%);
