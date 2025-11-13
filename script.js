@@ -83,6 +83,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const options = { year: 'numeric', month: 'long', day: 'numeric' };
             eddOutput.textContent = edd.toLocaleDateString('en-US', options);
             outputSection.style.display = 'block';
+            outputSection.classList.add('active');
+            calculatorSection.classList.add('active');
         });
 
         resetButton.addEventListener('click', () => {
@@ -92,6 +94,8 @@ document.addEventListener('DOMContentLoaded', () => {
             lmpError.textContent = '';
             cycleLengthError.textContent = '';
             outputSection.style.display = 'none';
+            outputSection.classList.remove('active');
+            calculatorSection.classList.remove('active');
         });
     }
 });
