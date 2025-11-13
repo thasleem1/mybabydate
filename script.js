@@ -6,6 +6,13 @@ document.addEventListener('DOMContentLoaded', () => {
         sidebar.classList.toggle('active');
     });
 
+    const navLinks = document.querySelectorAll('.sidebar nav ul li a');
+    navLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            sidebar.classList.remove('active');
+        });
+    });
+
     const calculatorSection = document.querySelector('.calculator');
     if (calculatorSection) {
         const lmpInput = document.getElementById('lmp');
@@ -13,8 +20,23 @@ document.addEventListener('DOMContentLoaded', () => {
         const calculateButton = document.getElementById('calculate');
         const resetButton = document.getElementById('reset');
         const eddOutput = document.getElementById('edd-output');
+        const outputSection = document.querySelector('.output');
         const lmpError = document.getElementById('lmp-error');
         const cycleLengthError = document.getElementById('cycle-length-error');
+
+        const today = new Date();
+        const year = today.getFullYear();
+        const month = String(today.getMonth() + 1).padStart(2, '0');
+        const day = String(today.getDate()).padStart(2, '0');
+        const maxDate = `${year}-${month}-${day}`;
+        lmpInput.setAttribute('max', maxDate);
+
+        const priorDate = new Date(new Date().setDate(today.getDate() - 365));
+        const priorYear = priorDate.getFullYear();
+        const priorMonth = String(priorDate.getMonth() + 1).padStart(2, '0');
+        const priorDay = String(priorDate.getDate()).padStart(2, '0');
+        const minDate = `${priorYear}-${priorMonth}-${priorDay}`;
+        lmpInput.setAttribute('min', minDate);
 
         eddOutput.textContent = "Please enter your information and click 'Calculate' to see your estimated due date.";
 
@@ -43,6 +65,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            if (lmpDate > today) {
+                lmpError.textContent = 'Please select a date in the past.';
+                return;
+            }
+
             const cycleLength = parseInt(cycleLengthSelect.value);
             const cycleAdjustment = cycleLength - 28;
 
@@ -53,6 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const options = { year: 'numeric', month: 'long', day: 'numeric' };
             eddOutput.textContent = edd.toLocaleDateString('en-US', options);
+            outputSection.style.display = 'block';
         });
 
         resetButton.addEventListener('click', () => {
@@ -61,6 +91,7 @@ document.addEventListener('DOMContentLoaded', () => {
             eddOutput.textContent = '';
             lmpError.textContent = '';
             cycleLengthError.textContent = '';
+            outputSection.style.display = 'none';
         });
     }
 });
