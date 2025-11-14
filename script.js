@@ -13,6 +13,15 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    document.addEventListener('click', (event) => {
+        const isClickInsideSidebar = sidebar.contains(event.target);
+        const isClickOnHamburger = hamburger.contains(event.target);
+
+        if (!isClickInsideSidebar && !isClickOnHamburger && sidebar.classList.contains('active')) {
+            sidebar.classList.remove('active');
+        }
+    });
+
     const calculatorSection = document.querySelector('.calculator');
     if (calculatorSection) {
         const lmpInput = document.getElementById('lmp');
@@ -82,8 +91,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const options = { year: 'numeric', month: 'long', day: 'numeric' };
             eddOutput.textContent = edd.toLocaleDateString('en-US', options);
+
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            const diffTime = edd.getTime() - today.getTime();
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+            const daysToGoOutput = document.getElementById('days-to-go');
+            daysToGoOutput.textContent = `Days to go: ${diffDays}`;
+
             outputSection.style.display = 'block';
-            outputSection.classList.add('active');
             calculatorSection.classList.add('active');
         });
 
@@ -91,10 +108,11 @@ document.addEventListener('DOMContentLoaded', () => {
             lmpInput.value = '';
             cycleLengthSelect.value = '28';
             eddOutput.textContent = '';
+            const daysToGoOutput = document.getElementById('days-to-go');
+            daysToGoOutput.textContent = '';
             lmpError.textContent = '';
             cycleLengthError.textContent = '';
             outputSection.style.display = 'none';
-            outputSection.classList.remove('active');
             calculatorSection.classList.remove('active');
         });
     }
