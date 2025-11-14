@@ -99,21 +99,6 @@ button:hover {
     margin-top: 20px;
     text-align: center;
     display: none;
-    position: relative;
-}
-
-.shooting-star {
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 50px;
-    height: 50px;
-    opacity: 0;
-    transition: opacity 0.5s ease-in-out;
-}
-
-.output.active .shooting-star {
-    opacity: 1;
 }
 
 .error-message {
@@ -152,6 +137,10 @@ button:hover {
 
     .sidebar.active {
         transform: translateX(0);
+    }
+
+    .sidebar.active + .main-content {
+        margin-top: 50px;
     }
 
     .hamburger {
