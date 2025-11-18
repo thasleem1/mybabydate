@@ -68,7 +68,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 lmpError.textContent = 'Please select a date.';
                 return;
             }
-            const lmpDate = new Date(lmpValue);
+            const lmpDateParts = lmpValue.split('-');
+            const lmpDate = new Date(lmpDateParts[0], lmpDateParts[1] - 1, lmpDateParts[2]);
+            
             if (isNaN(lmpDate.getTime())) {
                 lmpError.textContent = 'Invalid date format.';
                 return;
@@ -85,15 +87,11 @@ document.addEventListener('DOMContentLoaded', () => {
             const cycleAdjustment = cycleLength - 28;
 
             const edd = new Date(lmpDate);
-            edd.setFullYear(edd.getFullYear() + 1);
-            edd.setMonth(edd.getMonth() - 3);
-            edd.setDate(edd.getDate() + 7 + cycleAdjustment);
+            edd.setDate(edd.getDate() + 280 + cycleAdjustment);
 
             const options = { year: 'numeric', month: 'long', day: 'numeric' };
-            eddOutput.textContent = edd.toLocaleDateString('en-US', options);
+            eddOutput.textContent = `Estimated Due Date: ${edd.toLocaleDateString('en-US', options)}`;
 
-            const today = new Date();
-            today.setHours(0, 0, 0, 0);
             const diffTime = edd.getTime() - today.getTime();
             const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 

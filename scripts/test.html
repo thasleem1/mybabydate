@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Baby Due Date Calculator Tests</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        body {
+            font-family: sans-serif;
+        }
+        .test-results {
+            margin: 20px;
+        }
+        .test-case {
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+        }
+        .test-case.passed {
+            background-color: #e6ffed;
+        }
+        .test-case.failed {
+            background-color: #ffe6e6;
+        }
+        .test-case p {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <main class="main-content">
+            <header>
+                <h1>Baby Due Date Calculator Tests</h1>
+            </header>
+            <div id="test-results" class="test-results"></div>
+        </main>
+    </div>
+
+    <!-- Add the calculator elements for the script to use -->
+    <div style="display: none;">
+        <input type="date" id="lmp">
+        <select id="cycle-length"></select>
+        <button id="calculate">Calculate</button>
+        <button id="reset">Reset</button>
+        <div class="output">
+            <p id="edd-output"></p>
+            <p id="days-to-go"></p>
+        </div>
+        <span class="error-message" id="lmp-error"></span>
+        <span class="error-message" id="cycle-length-error"></span>
+    </div>
+
+    <script src="../script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const testResultsContainer = document.getElementById('test-results');
+
+            function runTest(testName, testFunction) {
+                const testCaseElement = document.createElement('div');
+                testCaseElement.classList.add('test-case');
+                try {
+                    testFunction();
+                    testCaseElement.classList.add('passed');
+                    testCaseElement.innerHTML = `<p><strong>${testName}:</strong> Passed</p>`;
+                } catch (error) {
+                    testCaseElement.classList.add('failed');
+                    testCaseElement.innerHTML = `<p><strong>${testName}:</strong> Failed</p><p>${error.message}</p>`;
+                }
+                testResultsContainer.appendChild(testCaseElement);
+            }
+
+            function assertEqual(actual, expected, message) {
+                if (actual !== expected) {
+                    throw new Error(message || `Expected ${expected}, but got ${actual}`);
+                }
+            }
+
+            // --- Test Cases ---
+
+            runTest('Test Case 1: Standard Calculation', () => {
+                const lmpInput = document.getElementById('lmp');
+                const cycleLengthSelect = document.getElementById('cycle-length');
+                const calculateButton = document.getElementById('calculate');
+                const eddOutput = document.getElementById('edd-output');
+
+                lmpInput.value = '2023-01-01';
+                cycleLengthSelect.value = '28';
+                calculateButton.click();
+
+                const expectedDate = 'October 8, 2023';
+                assertEqual(eddOutput.textContent, expectedDate);
+            });
+
+            runTest('Test Case 2: Longer Cycle Length', () => {
+                const lmpInput = document.getElementById('lmp');
+                const cycleLengthSelect = document.getElementById('cycle-length');
+                const calculateButton = document.getElementById('calculate');
+                const eddOutput = document.getElementById('edd-output');
+
+                lmpInput.value = '2023-01-01';
+                // Manually add and select a longer cycle length for testing
+                const option = document.createElement('option');
+                option.value = 35;
+                option.textContent = 35;
+                cycleLengthSelect.appendChild(option);
+                cycleLengthSelect.value = '35';
+                
+                calculateButton.click();
+
+                const expectedDate = 'October 15, 2023';
+                assertEqual(eddOutput.textContent, expectedDate);
+            });
+
+            runTest('Test Case 3: Shorter Cycle Length', () => {
+                const lmpInput = document.getElementById('lmp');
+                const cycleLengthSelect = document.getElementById('cycle-length');
+                const calculateButton = document.getElementById('calculate');
+                const eddOutput = document.getElementById('edd-output');
+
+                lmpInput.value = '2023-01-01';
+                cycleLengthSelect.value = '21';
+                calculateButton.click();
+
+                const expectedDate = 'October 1, 2023';
+                assertEqual(eddOutput.textContent, expectedDate);
+            });
+
+            runTest('Test Case 4: Leap Year', () => {
+                const lmpInput = document.getElementById('lmp');
+                const cycleLengthSelect = document.getElementById('cycle-length');
+                const calculateButton = document.getElementById('calculate');
+                const eddOutput = document.getElementById('edd-output');
+
+                lmpInput.value = '2024-01-01';
+                cycleLengthSelect.value = '28';
+                calculateButton.click();
+
+                const expectedDate = 'October 7, 2024';
+                assertEqual(eddOutput.textContent, expectedDate);
+            });
+
+            runTest('Test Case 5: No LMP Date Selected', () => {
+                const lmpInput = document.getElementById('lmp');
+                const calculateButton = document.getElementById('calculate');
+                const lmpError = document.getElementById('lmp-error');
+                const resetButton = document.getElementById('reset');
+
+                resetButton.click();
+                lmpInput.value = '';
+                calculateButton.click();
+
+                assertEqual(lmpError.textContent, 'Please select a date.');
+            });
+        });
+    </script>
+</body>
+</html>
